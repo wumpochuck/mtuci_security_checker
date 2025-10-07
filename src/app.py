@@ -22,10 +22,26 @@ result_antivirus_testing = tk.StringVar(value="")
 # ---- Проверка межсетевого экрана -------------- #
 
 def check_network_connection():
-    pass
+    try:
+        if(subprocess.run(["ping", "-n", "1", "8.8.8.8"]).returncode == 0):
+            result_check_network_connected.set("Данный компьютер подключен к интернету")
+        else:
+           result_check_network_connected.set("Данный компьютер не подключен к интернету")
+    except subprocess.CalledProcessError as e:
+        result_check_network_connected.set("Данный компьютер не подключен к интернету")
+    except Exception as e:
+        messagebox.showinfo(f"Error: {e}")
 
 def is_firewall_installed():
-    pass
+    try:
+        if(subprocess.run(["powershell", "-Command", "Get-Service -Name MpsSvc"]).returncode == 0):
+            result_check_firewall_installed.set("Фаервол установлен!")
+        else:
+            result_check_firewall_installed.set("Фаервол не установлен!")
+    except subprocess.CalledProcessError as e:
+            result_check_firewall_installed.set("Фаервол не установлен!")
+    except Exception as e:
+        messagebox.showinfo(f"Error: {e}")
 
 def is_firewall_working():
     pass

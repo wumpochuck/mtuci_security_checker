@@ -86,13 +86,10 @@ interface1(root)
 
 def check_antivirus_installed():
     try:
-        if(str(subprocess.check_output('wmic /namespace:\\\\root\\securitycenter2  path antivirusproduct get displayname')
-            ).find("Windows Defender") != -1):
+        if(os.path.exists(r"C:\Program Files\Windows Defender\MpCmdRun.exe")):
             result_check_antivirus_installed.set("Антивирус установлен!")
         else:
             result_check_antivirus_installed.set("Антивирус не установлен!")
-    except subprocess.CalledProcessError:
-        result_check_antivirus_installed.set("Антивирус не установлен!")
     except Exception as e:
         messagebox.showerror("Error", e)
         
@@ -235,5 +232,3 @@ interface3(root)
 # ---- Запуск ----------------------------------- #
 
 root.mainloop()
-
-# ----------------------------------------------- #
